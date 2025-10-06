@@ -1,6 +1,7 @@
+/* General Styles */
 body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
+  font-family: 'Arial', sans-serif;
+  background: #f0f2f5;
   margin: 0;
   padding: 0;
 }
@@ -8,15 +9,18 @@ header {
   background: #4CAF50;
   color: white;
   text-align: center;
-  padding: 1.5rem;
+  padding: 2rem 1rem;
+}
+header h1 {
+  margin: 0;
 }
 main {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 2rem auto;
   padding: 1rem;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+h2 {
+  margin-top: 1rem;
 }
 input, textarea, select, button {
   width: 100%;
@@ -35,22 +39,54 @@ button {
 button:hover {
   background: #45a049;
 }
+
+/* Parking Lot Grid */
+.parking-lot {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Idea Card */
 .idea {
-  background: #eef;
+  background: #fff;
+  border-radius: 10px;
   padding: 1rem;
-  margin: 0.5rem 0;
-  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.idea:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
 }
 .idea h3 {
   margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
 }
-.category {
-  font-weight: bold;
-  margin-top: 1rem;
+.idea p {
+  font-size: 0.9rem;
+  color: #555;
 }
+
+/* Category Badge */
+.idea select {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+.idea button {
+  margin-top: 0.5rem;
+  background: #f44336;
+}
+.idea button:hover {
+  background: #d32f2f;
+}
+
 footer {
   text-align: center;
   padding: 1rem;
   font-size: 0.9rem;
   color: #777;
+  margin-top: 2rem;
 }
