@@ -12,6 +12,8 @@
             --done-color: #2ecc71;
             --background-color: #f5f5f5;
             --text-color: #333;
+            --asphalt-color: #5a5a5a;
+            --line-color: #ffffff;
         }
 
         * {
@@ -44,108 +46,132 @@
         }
 
         .parking-lot {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            background-color: var(--asphalt-color);
+            border-radius: 12px;
+            padding: 20px;
             margin-bottom: 30px;
+            position: relative;
+            min-height: 500px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .parking-zone {
-            background-color: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            min-height: 400px;
-        }
-
-        .zone-header {
+        .parking-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid;
+            margin-bottom: 20px;
+            position: relative;
         }
 
-        .zone-title {
-            font-weight: bold;
-            font-size: 1.2rem;
+        .parking-row::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--line-color);
+            opacity: 0.3;
         }
 
-        .zone-count {
-            background-color: #ecf0f1;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
+        .parking-space {
+            width: 120px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            border: 2px dashed var(--line-color);
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
             font-weight: bold;
+            position: relative;
+            transition: all 0.3s ease;
         }
 
-        .parked .zone-header {
+        .parking-space.highlight {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid var(--line-color);
+        }
+
+        .parking-space.parked {
             border-color: var(--parked-color);
         }
 
-        .in-progress .zone-header {
+        .parking-space.in-progress {
             border-color: var(--in-progress-color);
         }
 
-        .review .zone-header {
+        .parking-space.review {
             border-color: var(--review-color);
         }
 
-        .done .zone-header {
+        .parking-space.done {
             border-color: var(--done-color);
         }
 
-        .idea-card {
-            background-color: white;
-            border-radius: 6px;
-            padding: 12px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            cursor: move;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border-left: 4px solid;
-        }
-
-        .idea-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .parked .idea-card {
-            border-left-color: var(--parked-color);
-        }
-
-        .in-progress .idea-card {
-            border-left-color: var(--in-progress-color);
-        }
-
-        .review .idea-card {
-            border-left-color: var(--review-color);
-        }
-
-        .done .idea-card {
-            border-left-color: var(--done-color);
-        }
-
-        .idea-title {
+        .zone-label {
+            position: absolute;
+            top: -25px;
+            left: 0;
             font-weight: bold;
-            margin-bottom: 5px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 2px 8px;
+            border-radius: 4px;
         }
 
-        .idea-description {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 8px;
+        .idea-vehicle {
+            width: 100px;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: move;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+            padding: 5px;
+            text-align: center;
         }
 
-        .idea-date {
+        .idea-vehicle:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .idea-vehicle.parked {
+            background-color: var(--parked-color);
+        }
+
+        .idea-vehicle.in-progress {
+            background-color: var(--in-progress-color);
+        }
+
+        .idea-vehicle.review {
+            background-color: var(--review-color);
+        }
+
+        .idea-vehicle.done {
+            background-color: var(--done-color);
+        }
+
+        .vehicle-title {
             font-size: 0.8rem;
-            color: #999;
-            text-align: right;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 90%;
+        }
+
+        .vehicle-date {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .add-idea-form {
@@ -166,7 +192,7 @@
             font-weight: bold;
         }
 
-        input, textarea {
+        input, textarea, select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
@@ -194,24 +220,65 @@
             background-color: #2980b9;
         }
 
-        .empty-zone {
-            text-align: center;
-            color: #bdc3c7;
-            padding: 20px;
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-color.parked {
+            background-color: var(--parked-color);
+        }
+
+        .legend-color.in-progress {
+            background-color: var(--in-progress-color);
+        }
+
+        .legend-color.review {
+            background-color: var(--review-color);
+        }
+
+        .legend-color.done {
+            background-color: var(--done-color);
+        }
+
+        .empty-space {
+            color: rgba(255, 255, 255, 0.5);
             font-style: italic;
         }
 
         .dragging {
-            opacity: 0.5;
-        }
-
-        .zone-over {
-            background-color: #f8f9fa;
+            opacity: 0.7;
+            transform: rotate(5deg);
         }
 
         @media (max-width: 768px) {
-            .parking-lot {
-                grid-template-columns: 1fr;
+            .parking-space {
+                width: 90px;
+                height: 70px;
+            }
+            
+            .idea-vehicle {
+                width: 80px;
+                height: 50px;
+            }
+            
+            .vehicle-title {
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -220,8 +287,27 @@
     <div class="container">
         <header>
             <h1>Parking Lot for Ideas</h1>
-            <p>Park your ideas and move them through different stages until completion</p>
+            <p>Park your ideas as vehicles and move them through different stages until completion</p>
         </header>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color parked"></div>
+                <span>Parked Ideas</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color in-progress"></div>
+                <span>In Progress</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color review"></div>
+                <span>Under Review</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color done"></div>
+                <span>Done</span>
+            </div>
+        </div>
 
         <div class="add-idea-form">
             <h2>Add New Idea</h2>
@@ -234,50 +320,21 @@
                     <label for="ideaDescription">Description</label>
                     <textarea id="ideaDescription"></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="ideaState">Initial State</label>
+                    <select id="ideaState">
+                        <option value="parked">Parked</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="review">Under Review</option>
+                        <option value="done">Done</option>
+                    </select>
+                </div>
                 <button type="submit">Park This Idea</button>
             </form>
         </div>
 
-        <div class="parking-lot">
-            <div class="parking-zone parked" data-state="parked">
-                <div class="zone-header">
-                    <div class="zone-title">Parked Ideas</div>
-                    <div class="zone-count">0</div>
-                </div>
-                <div class="zone-content" id="parked-ideas">
-                    <div class="empty-zone">No parked ideas</div>
-                </div>
-            </div>
-
-            <div class="parking-zone in-progress" data-state="in-progress">
-                <div class="zone-header">
-                    <div class="zone-title">In Progress</div>
-                    <div class="zone-count">0</div>
-                </div>
-                <div class="zone-content" id="in-progress-ideas">
-                    <div class="empty-zone">No ideas in progress</div>
-                </div>
-            </div>
-
-            <div class="parking-zone review" data-state="review">
-                <div class="zone-header">
-                    <div class="zone-title">Under Review</div>
-                    <div class="zone-count">0</div>
-                </div>
-                <div class="zone-content" id="review-ideas">
-                    <div class="empty-zone">No ideas under review</div>
-                </div>
-            </div>
-
-            <div class="parking-zone done" data-state="done">
-                <div class="zone-header">
-                    <div class="zone-title">Done</div>
-                    <div class="zone-count">0</div>
-                </div>
-                <div class="zone-content" id="done-ideas">
-                    <div class="empty-zone">No completed ideas</div>
-                </div>
-            </div>
+        <div class="parking-lot" id="parkingLot">
+            <!-- Parking spaces will be generated by JavaScript -->
         </div>
     </div>
 
@@ -289,13 +346,22 @@
         const ideaForm = document.getElementById('ideaForm');
         const ideaTitle = document.getElementById('ideaTitle');
         const ideaDescription = document.getElementById('ideaDescription');
-        const parkingZones = document.querySelectorAll('.parking-zone');
-        const zoneContents = document.querySelectorAll('.zone-content');
+        const ideaState = document.getElementById('ideaState');
+        const parkingLot = document.getElementById('parkingLot');
+
+        // Parking lot configuration
+        const parkingConfig = {
+            'parked': { label: 'Parked Ideas', spaces: 6 },
+            'in-progress': { label: 'In Progress', spaces: 4 },
+            'review': { label: 'Under Review', spaces: 3 },
+            'done': { label: 'Done', spaces: 4 }
+        };
 
         // Initialize the app
         function init() {
             loadIdeas();
             setupEventListeners();
+            renderParkingLot();
             renderIdeas();
         }
 
@@ -328,6 +394,7 @@
         function addIdea() {
             const title = ideaTitle.value.trim();
             const description = ideaDescription.value.trim();
+            const state = ideaState.value;
             
             if (!title) {
                 alert('Please enter an idea title');
@@ -338,7 +405,7 @@
                 id: Date.now().toString(),
                 title: title,
                 description: description,
-                state: 'parked',
+                state: state,
                 createdAt: new Date().toISOString()
             };
 
@@ -351,71 +418,100 @@
             ideaTitle.focus();
         }
 
-        // Render all ideas in their respective zones
-        function renderIdeas() {
-            // Clear all zones
-            zoneContents.forEach(zone => {
-                zone.innerHTML = '';
-            });
-
-            // Update zone counts
-            updateZoneCounts();
-
-            // If no ideas, show empty messages
-            if (ideas.length === 0) {
-                zoneContents.forEach(zone => {
-                    zone.innerHTML = '<div class="empty-zone">No ideas</div>';
-                });
-                return;
+        // Render the parking lot structure
+        function renderParkingLot() {
+            parkingLot.innerHTML = '';
+            
+            // Create rows for each state
+            for (const [state, config] of Object.entries(parkingConfig)) {
+                const row = document.createElement('div');
+                row.className = 'parking-row';
+                
+                // Add zone label
+                const label = document.createElement('div');
+                label.className = 'zone-label';
+                label.textContent = config.label;
+                row.appendChild(label);
+                
+                // Create parking spaces
+                for (let i = 0; i < config.spaces; i++) {
+                    const space = document.createElement('div');
+                    space.className = `parking-space ${state}`;
+                    space.setAttribute('data-state', state);
+                    space.setAttribute('data-index', i);
+                    
+                    // Add empty space indicator
+                    const emptyIndicator = document.createElement('div');
+                    emptyIndicator.className = 'empty-space';
+                    emptyIndicator.textContent = 'Empty';
+                    space.appendChild(emptyIndicator);
+                    
+                    row.appendChild(space);
+                }
+                
+                parkingLot.appendChild(row);
             }
-
-            // Render each idea in its zone
-            ideas.forEach(idea => {
-                const zone = document.getElementById(`${idea.state}-ideas`);
-                const ideaElement = createIdeaElement(idea);
-                zone.appendChild(ideaElement);
-            });
-
-            // Update zone counts again after rendering
-            updateZoneCounts();
         }
 
-        // Create HTML element for an idea
-        function createIdeaElement(idea) {
-            const ideaElement = document.createElement('div');
-            ideaElement.className = 'idea-card';
-            ideaElement.setAttribute('draggable', 'true');
-            ideaElement.setAttribute('data-id', idea.id);
+        // Render all ideas in their respective parking spaces
+        function renderIdeas() {
+            // Clear all vehicles from parking spaces
+            document.querySelectorAll('.idea-vehicle').forEach(vehicle => {
+                vehicle.remove();
+            });
+            
+            // Reset empty indicators
+            document.querySelectorAll('.empty-space').forEach(indicator => {
+                indicator.style.display = 'block';
+            });
+
+            // If no ideas, we're done
+            if (ideas.length === 0) return;
+
+            // Group ideas by state
+            const ideasByState = {
+                'parked': [],
+                'in-progress': [],
+                'review': [],
+                'done': []
+            };
+            
+            ideas.forEach(idea => {
+                ideasByState[idea.state].push(idea);
+            });
+
+            // Render each idea in its parking space
+            for (const [state, stateIdeas] of Object.entries(ideasByState)) {
+                const spaces = document.querySelectorAll(`.parking-space[data-state="${state}"]`);
+                
+                stateIdeas.forEach((idea, index) => {
+                    if (index < spaces.length) {
+                        const space = spaces[index];
+                        const vehicle = createIdeaVehicle(idea);
+                        space.appendChild(vehicle);
+                        
+                        // Hide empty indicator for this space
+                        space.querySelector('.empty-space').style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        // Create HTML element for an idea vehicle
+        function createIdeaVehicle(idea) {
+            const vehicle = document.createElement('div');
+            vehicle.className = `idea-vehicle ${idea.state}`;
+            vehicle.setAttribute('draggable', 'true');
+            vehicle.setAttribute('data-id', idea.id);
 
             const date = new Date(idea.createdAt).toLocaleDateString();
 
-            ideaElement.innerHTML = `
-                <div class="idea-title">${escapeHtml(idea.title)}</div>
-                <div class="idea-description">${escapeHtml(idea.description)}</div>
-                <div class="idea-date">${date}</div>
+            vehicle.innerHTML = `
+                <div class="vehicle-title">${escapeHtml(idea.title)}</div>
+                <div class="vehicle-date">${date}</div>
             `;
 
-            return ideaElement;
-        }
-
-        // Update the count of ideas in each zone
-        function updateZoneCounts() {
-            const counts = {
-                'parked': 0,
-                'in-progress': 0,
-                'review': 0,
-                'done': 0
-            };
-
-            ideas.forEach(idea => {
-                counts[idea.state]++;
-            });
-
-            parkingZones.forEach(zone => {
-                const state = zone.getAttribute('data-state');
-                const countElement = zone.querySelector('.zone-count');
-                countElement.textContent = counts[state];
-            });
+            return vehicle;
         }
 
         // Set up drag and drop functionality
@@ -424,16 +520,20 @@
 
             // Drag start
             document.addEventListener('dragstart', function(e) {
-                if (e.target.classList.contains('idea-card')) {
+                if (e.target.classList.contains('idea-vehicle')) {
                     draggedElement = e.target;
                     e.target.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', e.target.getAttribute('data-id'));
                 }
             });
 
             // Drag end
             document.addEventListener('dragend', function(e) {
-                if (e.target.classList.contains('idea-card')) {
+                if (e.target.classList.contains('idea-vehicle')) {
                     e.target.classList.remove('dragging');
+                    document.querySelectorAll('.parking-space').forEach(space => {
+                        space.classList.remove('highlight');
+                    });
                     draggedElement = null;
                 }
             });
@@ -441,19 +541,16 @@
             // Drag over
             document.addEventListener('dragover', function(e) {
                 e.preventDefault();
-            });
-
-            // Drag enter
-            document.addEventListener('dragenter', function(e) {
-                if (e.target.classList.contains('zone-content')) {
-                    e.target.parentElement.classList.add('zone-over');
-                }
-            });
-
-            // Drag leave
-            document.addEventListener('dragleave', function(e) {
-                if (e.target.classList.contains('zone-content')) {
-                    e.target.parentElement.classList.remove('zone-over');
+                
+                // Highlight potential drop targets
+                if (draggedElement) {
+                    const space = e.target.closest('.parking-space');
+                    if (space && !space.querySelector('.idea-vehicle')) {
+                        document.querySelectorAll('.parking-space').forEach(s => {
+                            s.classList.remove('highlight');
+                        });
+                        space.classList.add('highlight');
+                    }
                 }
             });
 
@@ -461,20 +558,25 @@
             document.addEventListener('drop', function(e) {
                 e.preventDefault();
                 
-                if (e.target.classList.contains('zone-content') && draggedElement) {
-                    const targetZone = e.target.parentElement;
-                    targetZone.classList.remove('zone-over');
-                    
-                    const ideaId = draggedElement.getAttribute('data-id');
-                    const newState = targetZone.getAttribute('data-state');
-                    
-                    // Update idea state
-                    const ideaIndex = ideas.findIndex(idea => idea.id === ideaId);
-                    if (ideaIndex !== -1) {
-                        ideas[ideaIndex].state = newState;
-                        saveIdeas();
-                        renderIdeas();
+                if (draggedElement) {
+                    const space = e.target.closest('.parking-space');
+                    if (space && !space.querySelector('.idea-vehicle')) {
+                        const ideaId = draggedElement.getAttribute('data-id');
+                        const newState = space.getAttribute('data-state');
+                        
+                        // Update idea state
+                        const ideaIndex = ideas.findIndex(idea => idea.id === ideaId);
+                        if (ideaIndex !== -1) {
+                            ideas[ideaIndex].state = newState;
+                            saveIdeas();
+                            renderIdeas();
+                        }
                     }
+                    
+                    // Remove highlights
+                    document.querySelectorAll('.parking-space').forEach(s => {
+                        s.classList.remove('highlight');
+                    });
                 }
             });
         }
